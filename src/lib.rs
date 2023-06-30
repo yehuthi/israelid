@@ -1,4 +1,9 @@
 //! Israeli ID number validation.
+//!
+//! Israeli ID (Mispar Zehut) is composed of digits for the value (currently eight) and then one digit that is the checksum (Sifrat Biqoret), which makes
+//! ID numbers self-validating.
+//!
+//! You can validate an ID with [`valid_ascii`], and calculate a checksum digit with [`checksum_digit_ascii`].
 
 #![no_std]
 #![deny(clippy::missing_inline_in_public_items, missing_docs)]
@@ -12,11 +17,27 @@ fn checksum_ascii(id: impl IntoIterator<Item = u8>) -> usize {
 	})
 }
 
-/// Validates the given ID number.
+/// Validates the given ASCII ID number.
+///
+/// # Examples
+/// ```
+/// # use israelid::valid_ascii;
+/// assert!(!valid_ascii(*b"123456789"));
+/// assert!( valid_ascii(*b"123456782"));
+/// ```
 #[inline]
 pub fn valid_ascii(id: impl IntoIterator<Item = u8>) -> bool { checksum_ascii(id) % 10 == 0 }
 
-/// Calculates the checksum digit for the given ID.
+/// Calculates the checksum digit for the given ASCII ID, and returns it as an ASCII character.
+///
+/// # Examples
+/// ```
+/// # use israelid::checksum_digit_ascii;
+/// // returns the checksum as an ASCII character:
+/// assert_eq!(checksum_digit_ascii(*b"12345678"), b'2');
+/// // ..not as a number:
+/// assert_ne!(checksum_digit_ascii(*b"12345678"), 2);
+/// ```
 #[inline]
 pub fn checksum_digit_ascii(id: impl IntoIterator<Item = u8>) -> u8 {
 	let rem = checksum_ascii(id) % 10;
