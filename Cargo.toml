@@ -1,5 +1,10 @@
 [package]
 name = "israelid"
+description = "Israeli ID number validation"
 authors = ["Yehuthi <yehuthith@gmail.com>"]
 version = "0.1.0"
 edition = "2021"
+repository = "https://github.com/yehuthi/israelid"
+license = "MIT OR Apache-2.0"
+keywords = ["id", "israel", "government", "checksum", "validation"]
+categories = ["no-std", "no-std::no-alloc"]
