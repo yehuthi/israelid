@@ -80,5 +80,6 @@ mod test {
 		assert_eq!(checksum_digit_ascii(*b"22222222"), b'6');
 		assert_eq!(checksum_digit_ascii(*b"33333333"), b'4');
 		assert_eq!(checksum_digit_ascii(*b"44444444"), b'2');
+		assert_eq!(checksum_digit_ascii(*b"123456789"), b'3');
 	}
 }
