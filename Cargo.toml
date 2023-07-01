@@ -8,3 +8,10 @@ repository = "https://github.com/yehuthi/israelid"
 license = "MIT OR Apache-2.0"
 keywords = ["id", "israel", "government", "checksum", "validation"]
 categories = ["no-std", "no-std::no-alloc"]
+
+[dev-dependencies]
+criterion = "0.5.1"
+
+[[bench]]
+name = "bench"
+harness = false
