@@ -9,7 +9,6 @@
 #![deny(clippy::missing_inline_in_public_items, missing_docs)]
 
 /// Calculates the checksum for the given ASCII digits.
-#[inline]
 fn checksum_ascii(id: impl IntoIterator<Item = u8>) -> usize {
 	id.into_iter().enumerate().fold(0, |acc, (i, next)| {
 		let sum = (next - b'0') as usize * ((i % 2) + 1);
