@@ -30,3 +30,24 @@ if (ISRAELID_TEST)
 	include(GoogleTest)
 	gtest_discover_tests(tests)
 endif()
+
+# Benchmark
+option(ISRAELID_BENCH "Build benchmarks" OFF)
+if (ISRAELID_BENCH)
+	enable_language(CXX)
+
+	include(FetchContent)
+	FetchContent_Declare(
+		googlebenchmark
+		GIT_REPOSITORY git@github.com:google/benchmark.git
+		GIT_TAG "bc946b919cac6f25a199a526da571638cfde109f"
+		GIT_SHALLOW true
+		GIT_PROGRESS ON
+		SYSTEM
+	)
+	set(BENCHMARK_ENABLE_TESTING ${ISRAELID_TEST})
+	FetchContent_MakeAvailable(googlebenchmark)
+
+	add_executable(bench bench.cpp)
+	target_link_libraries(bench israelid benchmark::benchmark)
+endif()
