@@ -5,6 +5,13 @@ set(CMAKE_C_STANDARD 17)
 add_library(israelid israelid.c)
 target_include_directories(israelid PUBLIC include)
 
+# Binary
+option(ISRAELID_BIN "Build the binary" ON)
+if (ISRAELID_BIN)
+	add_executable(ilid bin.c)
+	target_link_libraries(ilid israelid)
+endif()
+
 # Tests
 option(ISRAELID_TEST "Build unit tests" OFF)
 if (ISRAELID_TEST)
