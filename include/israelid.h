@@ -7,7 +7,7 @@ extern "C" {
 
 typedef uint8_t israelid_checksum_t;
 
-israelid_checksum_t israelid_checksum_ascii(const char *id);
+israelid_checksum_t israelid_checksum_ascii(const char *id, uint8_t len);
 
 #ifdef __cplusplus
 }

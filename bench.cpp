@@ -3,7 +3,7 @@
 
 static void BM_checksum_ascii(benchmark::State& state) {
 	for (auto _ : state) {
-		israelid_checksum_ascii("12345689");
+		israelid_checksum_ascii("12345689", 9);
 	}
 }
 

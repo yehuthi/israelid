@@ -3,7 +3,7 @@
 
 TEST(israelid, checksum_ascii) {
 	EXPECT_EQ(
-		israelid_checksum_ascii("123456789"),
+		israelid_checksum_ascii("123456789", 9),
 		// 123456789
 		// 121212121
 		// 1 4 3 8 5 12 7 16 9
