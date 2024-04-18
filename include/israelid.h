@@ -5,7 +5,7 @@ extern "C" {
 
 #include <stdint.h>
 
-typedef uint32_t israelid_checksum_t;
+typedef uint8_t israelid_checksum_t;
 
 israelid_checksum_t israelid_checksum_ascii(const char *id);
 
