@@ -26,11 +26,7 @@ israelid_checksum_t israelid_checksum_ascii_9_sse(const char *id) {
 	__m128i larges_mask = _mm_cmpgt_epi8(id_vec, _mm_set1_epi8(9));
 	id_vec = _mm_blendv_epi8(id_vec, id_vec_minus_9, larges_mask);
 
-	// TODO: sum up better
-	uint8_t result[16];
-	_mm_store_si128((void*)result, id_vec);
-	israelid_checksum_t sum = 0;
-	for (int i = 0; i < 9; i++) sum += result[i];
-	return sum;
+	__m128i sum_vec = _mm_sad_epu8(id_vec, _mm_setzero_si128());
+	return _mm_cvtsi128_si32(sum_vec) + (_mm_extract_epi16(id_vec, 4) & 0xFF);
 }
 
