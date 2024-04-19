@@ -19,8 +19,8 @@ endif()
 
 # Debug information
 if (ISRAELID_TEST OR ISRAELID_BENCH)
-	target_compile_options(israelid PRIVATE "-fno-omit-frame-pointer")
-	target_compile_options(israelid PRIVATE "-gdwarf")
+	target_compile_options(israelid PUBLIC "-fno-omit-frame-pointer")
+	target_compile_options(israelid PUBLIC "-gdwarf")
 endif()
 
 # Tests
@@ -68,8 +68,7 @@ if (ISRAELID_BENCH)
 
 	add_executable(bench bench.cpp)
 	target_link_libraries(bench israelid benchmark::benchmark)
-	target_compile_options(bench PRIVATE "-fno-omit-frame-pointer")
-	target_compile_options(bench PRIVATE "-gdwarf")
-	target_compile_options(bench PRIVATE "-O3")
-	target_compile_options(israelid PRIVATE "-O3")
+	if (${CMAKE_BUILD_TYPE} EQUAL "Debug")
+		message(WARNING "benchmarking a debug build")
+	endif()
 endif()
