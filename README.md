@@ -6,6 +6,8 @@ Also available on [JavaScript](https://github.com/yehuthi/israelid.js) and [Rust
 
 ## Usage
 
+[API reference](https://yehuthi.github.io/israelid/)
+
 Validate an ID with `::israelid_valid_ascii`:
 ```
 bool israelid_valid_ascii(const char *id, uint8_t len);
