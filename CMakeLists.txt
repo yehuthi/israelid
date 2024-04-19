@@ -3,8 +3,12 @@ project(israelid VERSION 1.0 LANGUAGES C)
 set(CMAKE_C_STANDARD 17)
 
 add_library(israelid israelid.c)
-target_compile_options(israelid PRIVATE "-msse4.1")
 target_include_directories(israelid PUBLIC include)
+
+option(ISRAELID_SIMD "Enable SIMD (SSE 4.1) instructions" ON)
+if (ISRAELID_SIMD)
+	target_compile_options(israelid PUBLIC "-msse4.1")
+endif()
 
 # Binary
 option(ISRAELID_BIN "Build the binary" ON)
