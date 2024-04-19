@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1...3.29)
 project(israelid VERSION 1.0 LANGUAGES C)
 set(CMAKE_C_STANDARD 17)
 
-add_library(israelid israelid.c)
+add_library(israelid src/israelid.c)
 target_include_directories(israelid PUBLIC include)
 
 option(ISRAELID_SIMD "Enable SIMD (SSE 4.1) instructions" ON)
