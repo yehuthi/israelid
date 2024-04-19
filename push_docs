@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+BRANCH=docs
+ROOT=$(dirname $(readlink -f $0))
+
+if [ -n "$(git status --porcelain)" ]; then
+	echo "dirty working directory" 1>&2
+	git status
+	exit 1
+fi
+
+# Generate docs
+cd $ROOT
+mkdir -p build/doc
+doxygen $ROOT/Doxyfile
+# Switch branch
+git checkout --orphan $BRANCH
+git reset
+# Prepare docs
+rm -rf $(ls -I 'build')
+mv $ROOT/build/doc/html/* $ROOT
+rm -r $ROOT/build
+rm .gitignore
+touch .nojekyll
+# Push
+git add $ROOT
+git commit -m 'docs'
+git push -fu origin $BRANCH
+
+# Cleanup
+git clean -df
+git checkout master
+git branch -D docs
