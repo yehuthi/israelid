@@ -11,8 +11,6 @@ israelid_checksum_t israelid_checksum_ascii(const char *id, uint8_t len) {
 	return checksum;
 }
 
-static __m128i mullo_epi8(__m128i a, __m128i b);
-
 israelid_checksum_t israelid_checksum_ascii_9_sse(const char *id) {
 	__m128i id_vec = _mm_load_si128((void*)id);
 	id_vec = _mm_sub_epi8(id_vec, _mm_set1_epi8('0'));
