@@ -3,6 +3,7 @@ project(israelid VERSION 1.0 LANGUAGES C)
 set(CMAKE_C_STANDARD 17)
 
 add_library(israelid israelid.c)
+target_compile_options(israelid PRIVATE "-msse4.1")
 target_include_directories(israelid PUBLIC include)
 
 # Binary
@@ -10,6 +11,12 @@ option(ISRAELID_BIN "Build the binary" ON)
 if (ISRAELID_BIN)
 	add_executable(ilid bin.c)
 	target_link_libraries(ilid israelid)
+endif()
+
+# Debug information
+if (ISRAELID_TEST OR ISRAELID_BENCH)
+	target_compile_options(israelid PRIVATE "-fno-omit-frame-pointer")
+	target_compile_options(israelid PRIVATE "-gdwarf")
 endif()
 
 # Tests
@@ -60,7 +67,5 @@ if (ISRAELID_BENCH)
 	target_compile_options(bench PRIVATE "-fno-omit-frame-pointer")
 	target_compile_options(bench PRIVATE "-gdwarf")
 	target_compile_options(bench PRIVATE "-O3")
-	target_compile_options(israelid PRIVATE "-fno-omit-frame-pointer")
-	target_compile_options(israelid PRIVATE "-gdwarf")
 	target_compile_options(israelid PRIVATE "-O3")
 endif()

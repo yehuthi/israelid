@@ -12,3 +12,11 @@ TEST(israelid, checksum_ascii) {
 		47
 	);
 }
+
+TEST(israelid, checksum_ascii_sse) {
+	alignas(128) const char input[] = "123456789";
+	EXPECT_EQ(
+		israelid_checksum_ascii_9_sse(input),
+		israelid_checksum_ascii(input, 9)
+	);
+}
