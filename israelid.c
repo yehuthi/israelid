@@ -2,7 +2,6 @@
 #include <assert.h>
 #include <stdint.h>
 #include <immintrin.h>
-#include <stdbool.h>
 
 israelid_checksum_t _israelid_checksum_ascii_scalar(const char *id, uint8_t len) {
 	israelid_checksum_t checksum = 0;
@@ -46,4 +45,12 @@ israelid_checksum_t israelid_checksum_ascii(const char *id, uint8_t len) {
 	if (is_aligned(id, 128) && len == 9) return _israelid_checksum_ascii_9_sse(id);
 #endif
 	return _israelid_checksum_ascii_scalar(id, len);
+}
+
+bool israelid_checksum_valid(israelid_checksum_t checksum) {
+	return checksum % 10 == 0;
+}
+
+bool israelid_valid_ascii(const char *id, uint8_t len) {
+	return len == ISRAELID_ID_LEN && israelid_checksum_valid(israelid_checksum_ascii(id, len));
 }
