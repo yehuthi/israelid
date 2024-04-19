@@ -23,7 +23,6 @@ israelid_checksum_t _israelid_checksum_ascii_9_sse(const char *id) {
 	__m128i id_vec = _mm_load_si128((void*)id);
 	id_vec = _mm_sub_epi8(id_vec, _mm_set1_epi8('0'));
 
-
 	__m128i doubled = _mm_add_epi8(id_vec, id_vec);
 	id_vec = _mm_blendv_epi8(
 		id_vec,
