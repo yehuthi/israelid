@@ -14,32 +14,35 @@ TEST(israelid, checksum_ascii_scalar) {
 }
 
 TEST(israelid, checksum_ascii_sse) {
-	alignas(128) const char input[] = "123456789";
-	EXPECT_EQ(
-		_israelid_checksum_ascii_9_sse(input),
-		_israelid_checksum_ascii_scalar(input, 9)
-	);
-}
-
-TEST(israelid, valid) {
-	// 123..
-	EXPECT_FALSE(israelid_valid_ascii("123456789", 9));
-	EXPECT_TRUE(israelid_valid_ascii("123456782", 9));
-	// good
-	EXPECT_TRUE(israelid_valid_ascii("654223999", 9));
-	EXPECT_TRUE(israelid_valid_ascii("000000000", 9));
-	EXPECT_TRUE(israelid_valid_ascii("111111118", 9));
-	EXPECT_TRUE(israelid_valid_ascii("222222226", 9));
-	EXPECT_TRUE(israelid_valid_ascii("333333334", 9));
-	EXPECT_TRUE(israelid_valid_ascii("444444442", 9));
+#define CASE(LITERAL) \
+	{ \
+		alignas(128) const char input[] = LITERAL; \
+		assert(sizeof(input) == 9 + /* NUL */ 1); \
+		EXPECT_EQ( \
+			_israelid_checksum_ascii_9_sse(input), \
+			_israelid_checksum_ascii_scalar(input, 9) \
+		) << "for input " << input << " (line " << __LINE__ << ")"; \
+	}
 	// bad
-	EXPECT_FALSE(israelid_valid_ascii("654223991", 9));
-	EXPECT_FALSE(israelid_valid_ascii("999999999", 9));
-	EXPECT_FALSE(israelid_valid_ascii("555555550", 9));
-	// bad (misc)
-	EXPECT_FALSE(israelid_valid_ascii("", 0));
-	EXPECT_FALSE(israelid_valid_ascii("1", 1));
-	EXPECT_FALSE(israelid_valid_ascii("12", 2));
-	EXPECT_FALSE(israelid_valid_ascii("1abc5", 5));
-
+	CASE("123456789");
+	CASE("654223991");
+	CASE("999999999");
+	CASE("555555550");
+	// good
+	CASE("123456782");
+	CASE("654223999");
+	CASE("000000000");
+	CASE("111111118");
+	CASE("222222226");
+	CASE("333333334");
+	CASE("444444442");
+#undef CASE
 }
+
+TEST(israelid, valid_scalar) {
+	ASSERT_FALSE(israelid_valid_ascii("123456789", 9));
+	ASSERT_TRUE(israelid_valid_ascii("123456782", 9));
+	ASSERT_FALSE(israelid_valid_ascii("", 0));
+	ASSERT_FALSE(israelid_valid_ascii("a1b2", 4));
+}
+
