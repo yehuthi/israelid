@@ -14,13 +14,13 @@ TEST(israelid, checksum_ascii_scalar) {
 }
 
 TEST(israelid, checksum_ascii_sse) {
-#define CASE(LITERAL) \
-	{ \
-		alignas(128) const char input[] = LITERAL; \
-		assert(sizeof(input) == 9 + /* NUL */ 1); \
-		EXPECT_EQ( \
-			_israelid_checksum_ascii_9_sse(input), \
-			_israelid_checksum_ascii_scalar(input, 9) \
+#define CASE(LITERAL)                                               \
+	{                                                               \
+		alignas(128) const char input[] = LITERAL;                  \
+		assert(sizeof(input) == 9 + /* NUL */ 1);                   \
+		EXPECT_EQ(                                                  \
+			_israelid_checksum_ascii_9_sse(input),                  \
+			_israelid_checksum_ascii_scalar(input, 9)               \
 		) << "for input " << input << " (line " << __LINE__ << ")"; \
 	}
 	// bad
@@ -46,12 +46,19 @@ TEST(israelid, valid_scalar) {
 	ASSERT_FALSE(israelid_valid_ascii("a1b2", 4));
 }
 
-TEST(israelid, compute_checksum_len_9) {
-	ASSERT_EQ(israelid_control_complement("123456782", 9), 0) << "already valid";
-	ASSERT_EQ(israelid_control_complement("12345678", 8), 2) << "even delta, standard position";
-	ASSERT_EQ(israelid_control_complement("111", 3), 3) << "even delta, doubled position";
-	ASSERT_EQ(israelid_control_complement("11111", 5), 6) << "odd delta, doubled position";
-	ASSERT_EQ(israelid_control_complement("10", 2), 9) << "odd delta, standard position";
+TEST(israelid, control_complement) {
+#define CASE(ID, EXPECTED, LABEL)                                                                      \
+	{                                                                                                  \
+		const char value[] = ID;                                                                       \
+		ASSERT_EQ(israelid_control_complement(value, sizeof(value) - /* NUL */ 1), EXPECTED) << LABEL; \
+	}
+	CASE("123456782", 0, "already valid");
+	CASE("12345678", 2, "even delta, standard position");
+	CASE("111", 3, "even delta, doubled position");
+	CASE("11111", 6, "odd delta, doubled position");
+	CASE("10", 9, "odd delta, standard position");
+#undef CASE
+
 	// ascii
 	ASSERT_EQ(israelid_control_complement_ascii("12345678", 8), '2');
 }
