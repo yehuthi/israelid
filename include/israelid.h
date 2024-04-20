@@ -27,6 +27,13 @@ bool israelid_checksum_valid(israelid_checksum_t checksum);
 /// Checks whether the given Israeli ID number is valid.
 bool israelid_valid_ascii(const char *id, uint8_t len);
 
+/// Computes the checksum digit for an ID.
+/// That is: the ::israelid_checksum_ascii of the string `"<id><israelid_id_checksum(id)>"` should always be a ::israelid_checksum_valid.
+uint8_t israelid_id_checksum(const char* id, uint8_t len);
+
+/// The same as ::israelid_id_checksum but returns the digit as an ASCII character.
+char israelid_id_checksum_ascii(const char* id, uint8_t len);
+
 // internal (for testing and benchmarking):
 #ifdef __SSE4_1__
 israelid_checksum_t _israelid_checksum_ascii_9_sse(const char *id);

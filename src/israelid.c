@@ -53,3 +53,21 @@ bool israelid_checksum_valid(israelid_checksum_t checksum) {
 bool israelid_valid_ascii(const char *id, uint8_t len) {
 	return len == ISRAELID_ID_LEN && israelid_checksum_valid(israelid_checksum_ascii(id, len));
 }
+
+
+uint8_t israelid_id_checksum(const char* id, uint8_t len) {
+	const uint8_t rem = israelid_checksum_ascii(id, len) % 10;
+	if (rem == 0) return 0;
+	const uint8_t is_doubled_position = len % 2;
+	const uint8_t delta = 10 - rem;
+	const bool delta_is_even = delta % 2 == 0;
+
+	uint8_t result = delta;
+	if (!delta_is_even && is_doubled_position) result += 9; // this gets us a two-digit number that sums up to the delta
+	if (is_doubled_position) result /= 2;
+	return result;
+}
+
+char israelid_id_checksum_ascii(const char* id, uint8_t len) {
+	return israelid_id_checksum(id, len) + '0';
+}

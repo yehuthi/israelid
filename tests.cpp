@@ -46,3 +46,12 @@ TEST(israelid, valid_scalar) {
 	ASSERT_FALSE(israelid_valid_ascii("a1b2", 4));
 }
 
+TEST(israelid, compute_checksum_len_9) {
+	ASSERT_EQ(israelid_id_checksum("123456782", 9), 0) << "already valid";
+	ASSERT_EQ(israelid_id_checksum("12345678", 8), 2) << "even delta, standard position";
+	ASSERT_EQ(israelid_id_checksum("111", 3), 3) << "even delta, doubled position";
+	ASSERT_EQ(israelid_id_checksum("11111", 5), 6) << "odd delta, doubled position";
+	ASSERT_EQ(israelid_id_checksum("10", 2), 9) << "odd delta, standard position";
+	// ascii
+	ASSERT_EQ(israelid_id_checksum_ascii("12345678", 8), '2');
+}
