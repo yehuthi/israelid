@@ -55,7 +55,7 @@ bool israelid_valid_ascii(const char *id, uint8_t len) {
 }
 
 
-uint8_t israelid_id_checksum(const char* id, uint8_t len) {
+uint8_t israelid_control_complement(const char* id, uint8_t len) {
 	const uint8_t rem = israelid_checksum_ascii(id, len) % 10;
 	if (rem == 0) return 0;
 	const uint8_t is_doubled_position = len % 2;
@@ -68,6 +68,6 @@ uint8_t israelid_id_checksum(const char* id, uint8_t len) {
 	return result;
 }
 
-char israelid_id_checksum_ascii(const char* id, uint8_t len) {
-	return israelid_id_checksum(id, len) + '0';
+char israelid_control_complement_ascii(const char* id, uint8_t len) {
+	return israelid_control_complement(id, len) + '0';
 }

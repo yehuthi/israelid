@@ -23,4 +23,4 @@ Aligning the `id` to a 128 bit takes a faster code path.
 
 ### Inverse
 
-You can also compute which digit you need to add to an ID to make it valid with `::israelid_id_checksum_ascii`.
+You can also compute which digit you need to add to an ID to make it valid with `::israelid_control_complement` / `::israelid_control_complement_ascii`.

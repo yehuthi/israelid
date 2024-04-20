@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 	const char* status = statusi[(valid_len << 1) | valid_checksum];
 	printf("%s (checksum %d", status, checksum);
 	if (!valid_checksum)
-		printf(", recover digit: %d)\n", israelid_id_checksum(input, input_len));
+		printf(", complement digit: %d)\n", israelid_control_complement(input, input_len));
 	else printf(")\n");
 	return 0;
 }
