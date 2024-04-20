@@ -20,3 +20,7 @@ Aligning the `id` to a 128 bit takes a faster code path.
 - Checking `len` is the correct length (`::ISRAELID_ID_LEN`, i.e. 9).
 - Calculate the checksum with `::israelid_checksum_ascii`.
 - Check the `::israelid_checksum_valid` is valid.
+
+### Inverse
+
+You can also compute which digit you need to add to an ID to make it valid with `::israelid_id_checksum_ascii`.
