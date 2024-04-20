@@ -19,8 +19,8 @@ git reset
 # Prepare docs
 rm -rf $(ls -I 'build')
 mv $ROOT/build/doc/html/* $ROOT
-rm -r $ROOT/build
-rm .gitignore
+rm -rf $ROOT/build
+rm -f .gitignore
 touch .nojekyll
 # Push
 git add $ROOT
