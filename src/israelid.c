@@ -2,9 +2,14 @@
 #if ISRAELID_DEV
 #include "israelid_dev.h"
 #endif
-#include <assert.h>
 #include <stdint.h>
+
+#ifndef ISRAELID_WASM
+#include <assert.h>
 #include <immintrin.h>
+#else
+#define assert(...)
+#endif
 
 /// Export only for development build (testing or benchmarking)
 #if ISRAELID_DEV
