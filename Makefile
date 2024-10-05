@@ -5,7 +5,7 @@ bench: benchmark
 	./build/bench
 
 ./build/bench:
-	cmake -DCMAKE_BUILD_TYPE=Release -DISRAELID_BENCH -Bbuild
+	cmake -DCMAKE_BUILD_TYPE=Release -DISRAELID_BENCH=ON -Bbuild
 	cmake --build build
 
 clean:
