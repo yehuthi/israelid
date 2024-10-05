@@ -58,7 +58,7 @@ if (ISRAELID_BENCH)
 	FetchContent_Declare(
 		googlebenchmark
 		GIT_REPOSITORY git@github.com:google/benchmark.git
-		GIT_TAG "bc946b919cac6f25a199a526da571638cfde109f"
+		GIT_TAG "v1.9.0"
 		GIT_SHALLOW true
 		GIT_PROGRESS ON
 		SYSTEM
