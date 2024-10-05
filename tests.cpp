@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "israelid.h"
+#include "israelid_dev.h"
 
 TEST(israelid, checksum_ascii_scalar) {
 	EXPECT_EQ(

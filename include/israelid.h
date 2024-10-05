@@ -37,14 +37,6 @@ uint8_t israelid_control_complement(const char *id, uint8_t len);
 /// The same as ::israelid_control_complement but returns the digit as an ASCII character.
 char israelid_control_complement_ascii(const char* id, uint8_t len);
 
-#if ISRAELID_DEV
-// internal (for testing and benchmarking):
-#ifdef __SSE4_1__
-israelid_checksum_t _israelid_checksum_ascii_9_sse(const char *id);
-#endif
-israelid_checksum_t _israelid_checksum_ascii_scalar(const char *id, uint8_t len);
-#endif
-
 #ifdef __cplusplus
 }
 #endif

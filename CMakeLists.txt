@@ -23,6 +23,7 @@ option(ISRAELID_BENCH "Build benchmarks" OFF)
 # Debug information
 if (ISRAELID_TEST OR ISRAELID_BENCH)
 	target_compile_definitions(israelid PUBLIC ISRAELID_DEV=1)
+	target_include_directories(israelid PUBLIC include_dev)
 	target_compile_options(israelid PUBLIC "-fno-omit-frame-pointer")
 	target_compile_options(israelid PUBLIC "-gdwarf")
 endif()

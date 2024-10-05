@@ -1,5 +1,6 @@
 #include <benchmark/benchmark.h>
 #include "israelid.h"
+#include "israelid_dev.h"
 
 #ifndef __SSE4_1__
 #error "benchmarking without SSE4.1 enabled"

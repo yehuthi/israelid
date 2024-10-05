@@ -1,4 +1,7 @@
 #include "israelid.h"
+#if ISRAELID_DEV
+#include "israelid_dev.h"
+#endif
 #include <assert.h>
 #include <stdint.h>
 #include <immintrin.h>
