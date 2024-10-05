@@ -18,7 +18,7 @@
 #define EXPORT_FOR_DEV static
 #endif
 
-EXPORT_FOR_DEV israelid_checksum_t _israelid_checksum_ascii_scalar(const char *id, uint8_t len) {
+EXPORT_FOR_DEV israelid_checksum_t _israelid_checksum_ascii_scalar(const char *restrict id, uint8_t len) {
 	israelid_checksum_t checksum = 0;
 	for (int i = 0; i < len; i++) {
 		int n = (id[i] - '0') * ((i % 2) + 1);
@@ -32,7 +32,7 @@ static bool is_aligned(const void* addr, uint8_t alignment) {
 }
 
 #ifdef __SSE4_1__
-EXPORT_FOR_DEV israelid_checksum_t _israelid_checksum_ascii_9_sse(const char *id) {
+EXPORT_FOR_DEV israelid_checksum_t _israelid_checksum_ascii_9_sse(const char *restrict id) {
 	assert(is_aligned(id, 128) && "SIMD checksum called with unaligned data");
 
 	__m128i id_vec = _mm_load_si128((void*)id);
@@ -54,7 +54,7 @@ EXPORT_FOR_DEV israelid_checksum_t _israelid_checksum_ascii_9_sse(const char *id
 }
 #endif
 
-israelid_checksum_t israelid_checksum_ascii(const char *id, uint8_t len) {
+israelid_checksum_t israelid_checksum_ascii(const char *restrict id, uint8_t len) {
 #ifdef __SSE4_1__
 	if (is_aligned(id, 128) && len == 9) return _israelid_checksum_ascii_9_sse(id);
 #endif
@@ -65,12 +65,12 @@ bool israelid_checksum_valid(israelid_checksum_t checksum) {
 	return checksum % 10 == 0;
 }
 
-bool israelid_valid_ascii(const char *id, uint8_t len) {
+bool israelid_valid_ascii(const char *restrict id, uint8_t len) {
 	return len == ISRAELID_ID_LEN && israelid_checksum_valid(israelid_checksum_ascii(id, len));
 }
 
 
-uint8_t israelid_control_complement(const char* id, uint8_t len) {
+uint8_t israelid_control_complement(const char *restrict id, uint8_t len) {
 	const uint8_t rem = israelid_checksum_ascii(id, len) % 10;
 	if (rem == 0) return 0;
 	const uint8_t is_doubled_position = len % 2;
@@ -83,6 +83,6 @@ uint8_t israelid_control_complement(const char* id, uint8_t len) {
 	return result;
 }
 
-char israelid_control_complement_ascii(const char* id, uint8_t len) {
+char israelid_control_complement_ascii(const char *restrict id, uint8_t len) {
 	return israelid_control_complement(id, len) + '0';
 }
