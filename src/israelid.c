@@ -3,7 +3,14 @@
 #include <stdint.h>
 #include <immintrin.h>
 
-israelid_checksum_t _israelid_checksum_ascii_scalar(const char *id, uint8_t len) {
+/// Export only for development build (testing or benchmarking)
+#if ISRAELID_DEV
+#define EXPORT_FOR_DEV
+#else
+#define EXPORT_FOR_DEV static
+#endif
+
+EXPORT_FOR_DEV israelid_checksum_t _israelid_checksum_ascii_scalar(const char *id, uint8_t len) {
 	israelid_checksum_t checksum = 0;
 	for (int i = 0; i < len; i++) {
 		int n = (id[i] - '0') * ((i % 2) + 1);
@@ -17,7 +24,7 @@ static bool is_aligned(const void* addr, uint8_t alignment) {
 }
 
 #ifdef __SSE4_1__
-israelid_checksum_t _israelid_checksum_ascii_9_sse(const char *id) {
+EXPORT_FOR_DEV israelid_checksum_t _israelid_checksum_ascii_9_sse(const char *id) {
 	assert(is_aligned(id, 128) && "SIMD checksum called with unaligned data");
 
 	__m128i id_vec = _mm_load_si128((void*)id);

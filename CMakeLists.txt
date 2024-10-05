@@ -17,14 +17,17 @@ if (ISRAELID_BIN)
 	target_link_libraries(ilid israelid)
 endif()
 
+option(ISRAELID_TEST "Build unit tests" OFF)
+option(ISRAELID_BENCH "Build benchmarks" OFF)
+
 # Debug information
 if (ISRAELID_TEST OR ISRAELID_BENCH)
+	target_compile_definitions(israelid PUBLIC ISRAELID_DEV=1)
 	target_compile_options(israelid PUBLIC "-fno-omit-frame-pointer")
 	target_compile_options(israelid PUBLIC "-gdwarf")
 endif()
 
 # Tests
-option(ISRAELID_TEST "Build unit tests" OFF)
 if (ISRAELID_TEST)
 	enable_testing()
 	enable_language(CXX)
@@ -50,7 +53,6 @@ if (ISRAELID_TEST)
 endif()
 
 # Benchmark
-option(ISRAELID_BENCH "Build benchmarks" OFF)
 if (ISRAELID_BENCH)
 	enable_language(CXX)
 
